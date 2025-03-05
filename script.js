@@ -43,15 +43,21 @@ function selectProfile(profile) {
     players.p1.name = "Richa";
     players.p2.name = "Yogi";
   }
-  // Update display names.
+  // Update display names
   document.getElementById("p1-name").textContent = players.p1.name;
   document.getElementById("p2-name").textContent = players.p2.name;
-  // Hide profile selection and show game.
+  // Hide profile selection and show game container
   document.getElementById("profile-selection").style.display = "none";
   document.getElementById("game-container").style.display = "flex";
-  // Initialize boards.
+  
+  // Initialize boards for both players
   initPlayer("p1");
   initPlayer("p2");
+
+  // Force focus on the selected profile's input field.
+  // Since the selected profile is always assigned to p1,
+  // we set the focus to p1's input field.
+  players.p1.inputElement.focus();
 }
 
 // Initialize player's board and select a random word.
