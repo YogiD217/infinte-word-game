@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infinite Wordle: Profile Selection</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Profile Selection Screen -->
+  <div id="profile-selection">
+    <h1>Select Your Profile</h1>
+    <button onclick="selectProfile('Yogi')">Yogi</button>
+    <button onclick="selectProfile('Richa')">Richa</button>
+  </div>
+
+  <!-- Game Screen (hidden until profile is selected) -->
+  <div id="game-container" style="display: none;">
+    <!-- Left Panel -->
+    <div class="player-container" id="player1">
+      <h2 id="p1-name">Player 1</h2>
+      <div class="scoreboard">
+        <p>Total Points: <span id="p1-total-points">0</span></p>
+        <p>Average Points per Guess: <span id="p1-average-points">0</span></p>
+        <p>Total Correct Rounds: <span id="p1-correct-rounds">0</span></p>
+      </div>
+      <div class="board" id="p1-board">
+        <!-- Board cells will be generated here -->
+      </div>
+      <input type="text" id="p1-input" maxlength="5" placeholder="Enter 5-letter word">
+      <button onclick="submitGuess('p1')">Submit</button>
+    </div>
+    <!-- Right Panel -->
+    <div class="player-container" id="player2">
+      <h2 id="p2-name">Richa</h2>
+      <div class="scoreboard">
+        <p>Total Points: <span id="p2-total-points">0</span></p>
+        <p>Average Points per Guess: <span id="p2-average-points">0</span></p>
+        <p>Total Correct Rounds: <span id="p2-correct-rounds">0</span></p>
+      </div>
+      <div class="board" id="p2-board">
+        <!-- Board cells will be generated here -->
+      </div>
+      <input type="text" id="p2-input" maxlength="5" placeholder="Enter 5-letter word">
+      <button onclick="submitGuess('p2')">Submit</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

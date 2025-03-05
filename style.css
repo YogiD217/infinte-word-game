@@ -1,0 +1,75 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Profile Selection Screen */
+#profile-selection {
+  margin-top: 100px;
+}
+
+/* Game Screen */
+#game-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.player-container {
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 15px;
+  width: 45%;
+  margin-bottom: 20px;
+}
+
+.scoreboard p {
+  margin: 5px 0;
+}
+
+.board {
+  margin: 10px auto;
+  width: 250px;
+  height: 300px;
+  border: 2px solid #333;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-gap: 5px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 5px;
+}
+
+.cell {
+  border: 1px solid #ccc;
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  text-transform: uppercase;
+  background: #e0e0e0;
+}
+
+/* Colors for letter feedback */
+.correct { background-color: green; color: white; }
+.present { background-color: goldenrod; color: white; }
+.absent { background-color: lightgray; color: white; }
+
+input[type="text"] {
+  font-size: 18px;
+  padding: 5px;
+  width: 150px;
+  text-transform: uppercase;
+  margin-right: 10px;
+}
