@@ -36,12 +36,14 @@ const players = {
 
 // Add event listeners so that pressing Enter submits the guess.
 players.p1.inputElement.addEventListener('keydown', function(e) {
-  if (e.key === "Enter") {
+  if (e.key === "Enter" || e.keyCode === 13) {
+    e.preventDefault();
     submitGuess("p1");
   }
 });
 players.p2.inputElement.addEventListener('keydown', function(e) {
-  if (e.key === "Enter") {
+  if (e.key === "Enter" || e.keyCode === 13) {
+    e.preventDefault();
     submitGuess("p2");
   }
 });
@@ -63,7 +65,7 @@ function selectProfile(profile) {
   document.getElementById("profile-selection").style.display = "none";
   document.getElementById("game-container").style.display = "flex";
   
-  // Initialize p2 first, then p1, so that p1's focus overrides p2's.
+  // Initialize p2 first, then p1 so that p1's focus overrides p2's.
   initPlayer("p2");
   initPlayer("p1");
 }
@@ -167,5 +169,5 @@ function submitGuess(playerId) {
 
 // The game starts after profile selection, so no additional onload actions are needed.
 window.onload = function() {
-  // Wait for the user to select a profile.
+  // Waiting for the user to select a profile.
 };
