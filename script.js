@@ -13,7 +13,7 @@ const SCORE_BY_ATTEMPT = {
 
 const players = {
   p1: {
-    name: "Player 1", // Will be updated on profile selection.
+    name: "Player 1", // Will update based on profile selection.
     solution: "",
     currentRow: 0,
     totalPoints: 0,
@@ -23,7 +23,7 @@ const players = {
     inputElement: document.getElementById("p1-input")
   },
   p2: {
-    name: "Richa", // Will be updated on profile selection.
+    name: "Richa", // Will update based on profile selection.
     solution: "",
     currentRow: 0,
     totalPoints: 0,
@@ -36,8 +36,6 @@ const players = {
 
 // Called when a profile is selected.
 function selectProfile(profile) {
-  // If the user selects Yogi, assign Yogi to p1 and Richa to p2.
-  // If Richa is selected, assign Richa to p1 and Yogi to p2.
   if (profile === "Yogi") {
     players.p1.name = "Yogi";
     players.p2.name = "Richa";
@@ -45,23 +43,22 @@ function selectProfile(profile) {
     players.p1.name = "Richa";
     players.p2.name = "Yogi";
   }
-  // Update the display names.
+  // Update display names.
   document.getElementById("p1-name").textContent = players.p1.name;
   document.getElementById("p2-name").textContent = players.p2.name;
-  // Hide the profile selection screen and show the game screen.
+  // Hide profile selection and show game.
   document.getElementById("profile-selection").style.display = "none";
   document.getElementById("game-container").style.display = "flex";
-  // Initialize both players.
+  // Initialize boards.
   initPlayer("p1");
   initPlayer("p2");
 }
 
-// Initialize each player's board and solution.
+// Initialize player's board and select a random word.
 function initPlayer(playerId) {
   const player = players[playerId];
   player.boardElement.innerHTML = "";
   player.currentRow = 0;
-  // Create 6 empty rows with 5 cells each.
   for (let r = 0; r < 6; r++) {
     const rowDiv = document.createElement("div");
     rowDiv.classList.add("row");
@@ -72,9 +69,7 @@ function initPlayer(playerId) {
     }
     player.boardElement.appendChild(rowDiv);
   }
-  // Randomly select a solution word.
   player.solution = WORDS[Math.floor(Math.random() * WORDS.length)];
-  // Clear input field.
   player.inputElement.value = "";
   player.inputElement.focus();
 }
@@ -82,13 +77,13 @@ function initPlayer(playerId) {
 // Update player's scoreboard.
 function updateScoreboard(playerId) {
   const player = players[playerId];
+  const avg = player.correctRounds > 0 ? (player.totalPoints / player.totalGuessesInWins).toFixed(2) : 0;
   document.getElementById(`${playerId}-total-points`).textContent = player.totalPoints;
   document.getElementById(`${playerId}-correct-rounds`).textContent = player.correctRounds;
-  const avg = player.correctRounds > 0 ? (player.totalPoints / player.totalGuessesInWins).toFixed(2) : 0;
   document.getElementById(`${playerId}-average-points`).textContent = avg;
 }
 
-// Check the guess and update board accordingly.
+// Check the guess and update board.
 function submitGuess(playerId) {
   const player = players[playerId];
   const guess = player.inputElement.value.trim().toUpperCase();
@@ -97,34 +92,29 @@ function submitGuess(playerId) {
     return;
   }
   
-  // Get the current row.
   const row = player.boardElement.children[player.currentRow];
   const solutionArr = player.solution.split('');
   const guessArr = guess.split('');
-  
-  // Prepare an array for cell classes.
   let cellClasses = new Array(5).fill("absent");
-  
-  // First pass: mark correct letters.
+
+  // Mark correct letters.
   guessArr.forEach((letter, i) => {
     if (letter === solutionArr[i]) {
       cellClasses[i] = "correct";
-      solutionArr[i] = null; // Remove matched letter.
+      solutionArr[i] = null;
     }
   });
   
-  // Second pass: mark present letters.
+  // Mark present letters.
   guessArr.forEach((letter, i) => {
     if (cellClasses[i] === "correct") return;
     if (solutionArr.includes(letter)) {
       cellClasses[i] = "present";
-      // Remove first occurrence.
       const index = solutionArr.indexOf(letter);
       solutionArr[index] = null;
     }
   });
   
-  // Update the row's cells.
   Array.from(row.children).forEach((cell, i) => {
     cell.textContent = guessArr[i];
     cell.classList.add(cellClasses[i]);
@@ -132,9 +122,7 @@ function submitGuess(playerId) {
   
   player.currentRow++;
   
-  // Check if guess is correct.
   if (guess === player.solution) {
-    // Calculate points based on attempt number.
     const attempt = player.currentRow;
     const pointsEarned = SCORE_BY_ATTEMPT[attempt] || 0;
     player.totalPoints += pointsEarned;
@@ -142,18 +130,20 @@ function submitGuess(playerId) {
     player.correctRounds++;
     updateScoreboard(playerId);
     alert(`${player.name} guessed correctly in ${attempt} attempt(s)! Earned ${pointsEarned} points.`);
-    // Start a new round.
     setTimeout(() => initPlayer(playerId), 500);
     return;
   }
   
-  // If reached 6 attempts without a correct guess, round over.
   if (player.currentRow === 6) {
     alert(`${player.name} failed to guess the word. The word was "${player.solution}". Starting new round.`);
     setTimeout(() => initPlayer(playerId), 500);
   }
   
-  // Clear the input for next guess.
   player.inputElement.value = "";
   player.inputElement.focus();
 }
+
+// Make sure the page loads with everything ready.
+window.onload = function() {
+  // The game will only start after a profile is selected.
+};
